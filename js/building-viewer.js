@@ -11,7 +11,6 @@ const TYPED_ARRAYS = {
 function mat4Identity() {
   return new Float32Array([1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1]);
 }
-
 function mat4Multiply(a, b) {
   const out = new Float32Array(16);
   for (let c = 0; c < 4; c += 1) {
@@ -25,29 +24,24 @@ function mat4Multiply(a, b) {
   }
   return out;
 }
-
 function mat4Translation(x, y, z) {
   const out = mat4Identity();
   out[12] = x; out[13] = y; out[14] = z;
   return out;
 }
-
 function mat4Scale(x, y, z) {
   const out = mat4Identity();
   out[0] = x; out[5] = y; out[10] = z;
   return out;
 }
-
 function mat4RotationX(rad) {
   const c = Math.cos(rad); const s = Math.sin(rad);
   return new Float32Array([1,0,0,0, 0,c,s,0, 0,-s,c,0, 0,0,0,1]);
 }
-
 function mat4RotationY(rad) {
   const c = Math.cos(rad); const s = Math.sin(rad);
   return new Float32Array([c,0,-s,0, 0,1,0,0, s,0,c,0, 0,0,0,1]);
 }
-
 function mat4Perspective(fovy, aspect, near, far) {
   const f = 1 / Math.tan(fovy / 2);
   const nf = 1 / (near - far);
@@ -59,18 +53,14 @@ function mat4Perspective(fovy, aspect, near, far) {
   out[14] = 2 * far * near * nf;
   return out;
 }
-
 function normalize(v) {
   const length = Math.hypot(v[0], v[1], v[2]) || 1;
   return [v[0] / length, v[1] / length, v[2] / length];
 }
-
 function cross(a, b) {
   return [a[1]*b[2]-a[2]*b[1], a[2]*b[0]-a[0]*b[2], a[0]*b[1]-a[1]*b[0]];
 }
-
 function dot(a, b) { return a[0]*b[0] + a[1]*b[1] + a[2]*b[2]; }
-
 function mat4LookAt(eye, center, up) {
   const z = normalize([eye[0]-center[0], eye[1]-center[1], eye[2]-center[2]]);
   const x = normalize(cross(up, z));
@@ -82,7 +72,6 @@ function mat4LookAt(eye, center, up) {
     -dot(x, eye), -dot(y, eye), -dot(z, eye), 1
   ]);
 }
-
 function compileShader(gl, type, source) {
   const shader = gl.createShader(type);
   gl.shaderSource(shader, source);
@@ -94,7 +83,6 @@ function compileShader(gl, type, source) {
   }
   return shader;
 }
-
 function createProgram(gl, vertexSource, fragmentSource) {
   const program = gl.createProgram();
   gl.attachShader(program, compileShader(gl, gl.VERTEX_SHADER, vertexSource));
@@ -110,8 +98,8 @@ function createProgram(gl, vertexSource, fragmentSource) {
 
 function parseGlb(arrayBuffer) {
   const view = new DataView(arrayBuffer);
-  if (view.getUint32(0, true) !== 0x46546c67) throw new Error("Invalid GLB header");
-  if (view.getUint32(4, true) !== 2) throw new Error("Only glTF 2.0 is supported");
+  if (view.getUint32(0, true) !== 0x46546c67) throw new Error('Invalid GLB header');
+  if (view.getUint32(4, true) !== 2) throw new Error('Only glTF 2.0 is supported');
   const totalLength = view.getUint32(8, true);
   let offset = 12;
   let json = null;
@@ -123,28 +111,27 @@ function parseGlb(arrayBuffer) {
     const chunkStart = offset + 8;
     if (chunkType === 0x4E4F534A) {
       const bytes = new Uint8Array(arrayBuffer, chunkStart, chunkLength);
-      json = JSON.parse(new TextDecoder().decode(bytes).replace(/\u0000+$/g, "").trim());
+      json = JSON.parse(new TextDecoder().decode(bytes).replace(/\u0000+$/g, '').trim());
     } else if (chunkType === 0x004E4942) {
       binary = new Uint8Array(arrayBuffer, chunkStart, chunkLength);
     }
     offset = chunkStart + chunkLength;
   }
-  if (!json || !binary) throw new Error("GLB is missing JSON or binary chunks");
+  if (!json || !binary) throw new Error('GLB missing JSON or binary chunks');
 
   const accessorData = (index) => {
     const accessor = json.accessors[index];
     const bufferView = json.bufferViews[accessor.bufferView];
     const TypedArray = TYPED_ARRAYS[accessor.componentType];
-    if (!TypedArray) throw new Error(`Unsupported component type ${accessor.componentType}`);
     const componentCount = COMPONENTS[accessor.type];
     const byteOffset = binary.byteOffset + (bufferView.byteOffset || 0) + (accessor.byteOffset || 0);
     const elementCount = accessor.count * componentCount;
     const data = new TypedArray(binary.buffer, byteOffset, elementCount);
-    return { data, accessor, componentCount };
+    return { data, accessor };
   };
 
   const primitive = json.meshes?.[0]?.primitives?.[0];
-  if (!primitive) throw new Error("GLB has no renderable mesh primitive");
+  if (!primitive) throw new Error('No renderable mesh primitive found');
   return {
     positions: accessorData(primitive.attributes.POSITION),
     normals: accessorData(primitive.attributes.NORMAL),
@@ -162,7 +149,7 @@ export class BuildingViewer {
     this.vao = null;
     this.indexCount = 0;
     this.indexType = null;
-    this.rotationY = -0.42;
+    this.rotationY = -0.55;
     this.rotationX = -0.08;
     this.targetRotationX = -0.08;
     this.velocityY = 0;
@@ -175,22 +162,20 @@ export class BuildingViewer {
     this.startTime = performance.now();
     this.center = [0, 0, 0];
     this.scale = 1;
-    this.resizeObserver = null;
-    this.intersectionObserver = null;
   }
 
   async init() {
-    const gl = this.canvas.getContext("webgl2", {
+    const gl = this.canvas.getContext('webgl2', {
       alpha: true,
       antialias: true,
       depth: true,
       premultipliedAlpha: true,
-      powerPreference: "high-performance"
+      powerPreference: 'high-performance'
     });
-    if (!gl) throw new Error("WebGL 2 is unavailable");
+    if (!gl) throw new Error('WebGL 2 is unavailable');
     this.gl = gl;
 
-    const response = await fetch(this.modelUrl, { cache: "force-cache" });
+    const response = await fetch(this.modelUrl, { cache: 'force-cache' });
     if (!response.ok) throw new Error(`Unable to load model (${response.status})`);
     const mesh = parseGlb(await response.arrayBuffer());
     this.prepareProgram();
@@ -229,39 +214,57 @@ export class BuildingViewer {
       uniform float uTime;
       uniform float uGlowPass;
       out vec4 outColor;
+
+      float hash(vec2 p) {
+        return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123);
+      }
+
       void main() {
         vec3 n = normalize(vNormal);
-        vec3 lightA = normalize(vec3(-0.6, 0.85, 0.7));
-        vec3 lightB = normalize(vec3(0.8, 0.22, -0.5));
+        vec3 lightA = normalize(vec3(-0.7, 0.92, 0.55));
+        vec3 lightB = normalize(vec3(0.9, 0.18, -0.3));
+        vec3 lightC = normalize(vec3(-0.15, 0.22, -1.0));
         float diffuseA = max(dot(n, lightA), 0.0);
         float diffuseB = max(dot(n, lightB), 0.0);
-        vec3 viewDir = normalize(vec3(0.0, 0.1, 7.0) - vWorldPosition);
-        float rim = pow(1.0 - max(dot(n, viewDir), 0.0), 2.4);
-        float blueDominance = vColor.b - max(vColor.r, vColor.g * 0.62);
-        float emissiveMask = smoothstep(0.22, 0.62, blueDominance) * smoothstep(0.25, 0.72, vColor.b);
-        float shimmer = 0.88 + 0.12 * sin(uTime * 1.35 + vWorldPosition.y * 2.3 + vWorldPosition.x * 0.8);
+        float diffuseC = max(dot(n, lightC), 0.0);
+        vec3 viewDir = normalize(vec3(0.0, 0.6, 8.0) - vWorldPosition);
+        float rim = pow(1.0 - max(dot(n, viewDir), 0.0), 2.5);
+
+        float blueDominance = vColor.b - max(vColor.r, vColor.g * 0.68);
+        float emissiveMask = smoothstep(0.10, 0.42, blueDominance) * smoothstep(0.24, 0.92, vColor.b);
+
+        float windowSeed = hash(floor(vWorldPosition.xy * 8.0) + floor(vWorldPosition.zy * 6.0));
+        float flicker = 0.74 + 0.26 * sin(uTime * (1.7 + windowSeed * 2.6) + windowSeed * 6.2831 + vWorldPosition.y * 0.42);
+        float skylinePulse = 0.86 + 0.14 * sin(uTime * 0.55 + vWorldPosition.y * 0.35);
+
         vec3 base = vColor.rgb;
-        vec3 lit = base * (0.22 + diffuseA * 0.82 + diffuseB * 0.24);
-        lit += vec3(0.08, 0.24, 0.52) * rim * 0.72;
-        vec3 emission = vec3(0.04, 0.43, 1.08) * emissiveMask * shimmer;
-        float heightGlow = smoothstep(-2.2, 2.4, vWorldPosition.y) * 0.05;
-        vec3 color = lit + emission + vec3(0.04, 0.12, 0.24) * heightGlow;
+        vec3 lit = base * (0.18 + diffuseA * 0.86 + diffuseB * 0.22 + diffuseC * 0.18);
+        lit += vec3(0.04, 0.10, 0.18) * smoothstep(-2.0, 6.0, vWorldPosition.y);
+        lit += vec3(0.05, 0.16, 0.34) * rim * 0.78;
+
+        vec3 emission = vec3(0.06, 0.50, 1.25) * emissiveMask * flicker;
+        vec3 warmCrown = vec3(0.18, 0.12, 0.06) * smoothstep(3.5, 5.8, vWorldPosition.y) * 0.18;
+
+        vec3 color = lit * skylinePulse + emission + warmCrown;
+        float atmospheric = smoothstep(8.2, 0.6, length(vWorldPosition.xy));
+        color *= 0.84 + atmospheric * 0.16;
+
         if (uGlowPass > 0.5) {
-          float edge = rim * 0.28 + emissiveMask * 0.8;
-          outColor = vec4(vec3(0.04, 0.38, 1.0) * edge, edge * 0.23);
+          float edge = rim * 0.34 + emissiveMask * 0.92;
+          vec3 glow = mix(vec3(0.05, 0.18, 0.44), vec3(0.12, 0.58, 1.0), edge);
+          outColor = vec4(glow, edge * 0.22);
         } else {
-          float fog = smoothstep(8.5, 2.2, length(vWorldPosition.xy));
-          color *= 0.86 + fog * 0.14;
           outColor = vec4(color, 1.0);
         }
       }
     `;
+
     this.program = createProgram(gl, vertex, fragment);
     this.uniforms = {
-      model: gl.getUniformLocation(this.program, "uModel"),
-      viewProjection: gl.getUniformLocation(this.program, "uViewProjection"),
-      time: gl.getUniformLocation(this.program, "uTime"),
-      glowPass: gl.getUniformLocation(this.program, "uGlowPass")
+      model: gl.getUniformLocation(this.program, 'uModel'),
+      viewProjection: gl.getUniformLocation(this.program, 'uViewProjection'),
+      time: gl.getUniformLocation(this.program, 'uTime'),
+      glowPass: gl.getUniformLocation(this.program, 'uGlowPass')
     };
   }
 
@@ -288,46 +291,42 @@ export class BuildingViewer {
     this.indexCount = mesh.indices.accessor.count;
     this.vao = vao;
 
-    const min = mesh.positions.accessor.min || [-4.5, 0, -3];
-    const max = mesh.positions.accessor.max || [4.5, 27.4, 3];
-    this.center = [
-      (min[0] + max[0]) / 2,
-      (min[1] + max[1]) / 2,
-      (min[2] + max[2]) / 2
-    ];
+    const min = mesh.positions.accessor.min || [-4.5, -4.5, -4.5];
+    const max = mesh.positions.accessor.max || [4.5, 4.5, 4.5];
+    this.center = [(min[0] + max[0]) / 2, (min[1] + max[1]) / 2, (min[2] + max[2]) / 2];
     const extent = Math.max(max[0]-min[0], max[1]-min[1], max[2]-min[2]);
-    this.scale = 5.6 / extent;
+    this.scale = 6.1 / extent;
     gl.bindVertexArray(null);
   }
 
   bindEvents() {
     const canvas = this.canvas;
-    canvas.addEventListener("pointerdown", (event) => {
+    canvas.addEventListener('pointerdown', (event) => {
       this.dragging = true;
       this.lastPointer = { x: event.clientX, y: event.clientY };
       this.velocityY = 0;
       this.lastInteraction = performance.now();
       canvas.setPointerCapture?.(event.pointerId);
     });
-    canvas.addEventListener("pointermove", (event) => {
+    canvas.addEventListener('pointermove', (event) => {
       if (!this.dragging) return;
       const dx = event.clientX - this.lastPointer.x;
       const dy = event.clientY - this.lastPointer.y;
-      this.rotationY += dx * 0.007;
-      this.targetRotationX = Math.max(-0.24, Math.min(0.15, this.targetRotationX + dy * 0.003));
-      this.velocityY = dx * 0.00045;
+      this.rotationY += dx * 0.0072;
+      this.targetRotationX = Math.max(-0.3, Math.min(0.12, this.targetRotationX + dy * 0.0034));
+      this.velocityY = dx * 0.00042;
       this.lastPointer = { x: event.clientX, y: event.clientY };
       this.lastInteraction = performance.now();
     });
     const endDrag = (event) => {
       this.dragging = false;
       this.lastInteraction = performance.now();
-      try { canvas.releasePointerCapture?.(event.pointerId); } catch (_) { /* no-op */ }
+      try { canvas.releasePointerCapture?.(event.pointerId); } catch (_) { }
     };
-    canvas.addEventListener("pointerup", endDrag);
-    canvas.addEventListener("pointercancel", endDrag);
-    canvas.addEventListener("dblclick", () => {
-      this.rotationY = -0.42;
+    canvas.addEventListener('pointerup', endDrag);
+    canvas.addEventListener('pointercancel', endDrag);
+    canvas.addEventListener('dblclick', () => {
+      this.rotationY = -0.55;
       this.targetRotationX = -0.08;
       this.lastInteraction = performance.now();
     });
@@ -336,16 +335,16 @@ export class BuildingViewer {
     this.resizeObserver.observe(canvas);
     this.intersectionObserver = new IntersectionObserver((entries) => {
       this.visible = entries[0]?.isIntersecting ?? true;
-    }, { rootMargin: "180px" });
+    }, { rootMargin: '180px' });
     this.intersectionObserver.observe(canvas);
-    document.addEventListener("visibilitychange", () => { this.running = !document.hidden; });
+    document.addEventListener('visibilitychange', () => { this.running = !document.hidden; });
   }
 
   resize() {
     const gl = this.gl;
     if (!gl) return;
     const rect = this.canvas.getBoundingClientRect();
-    const dpr = Math.min(window.devicePixelRatio || 1, 1.6);
+    const dpr = Math.min(window.devicePixelRatio || 1, 1.7);
     const width = Math.max(1, Math.round(rect.width * dpr));
     const height = Math.max(1, Math.round(rect.height * dpr));
     if (this.canvas.width !== width || this.canvas.height !== height) {
@@ -364,11 +363,11 @@ export class BuildingViewer {
     const elapsed = (time - this.startTime) / 1000;
     if (!this.dragging) {
       const idleFor = time - this.lastInteraction;
-      if (idleFor > 2200) this.rotationY += 0.00225;
+      if (idleFor > 1800) this.rotationY += 0.0021;
       this.rotationY += this.velocityY;
-      this.velocityY *= 0.94;
+      this.velocityY *= 0.93;
     }
-    this.rotationX += (this.targetRotationX - this.rotationX) * 0.08;
+    this.rotationX += (this.targetRotationX - this.rotationX) * 0.09;
 
     gl.clearColor(0, 0, 0, 0);
     gl.clearDepth(1);
@@ -378,15 +377,15 @@ export class BuildingViewer {
     gl.cullFace(gl.BACK);
 
     const aspect = this.canvas.width / this.canvas.height;
-    const projection = mat4Perspective(34 * Math.PI / 180, aspect, 0.1, 100);
-    const view = mat4LookAt([0, 0.15, 7.4], [0, -0.05, 0], [0, 1, 0]);
+    const projection = mat4Perspective(31 * Math.PI / 180, aspect, 0.1, 100);
+    const view = mat4LookAt([0, 0.4, 7.9], [0, 0.45, 0], [0, 1, 0]);
     const viewProjection = mat4Multiply(projection, view);
 
     const centerTranslation = mat4Translation(-this.center[0], -this.center[1], -this.center[2]);
     const scale = mat4Scale(this.scale, this.scale, this.scale);
     const rotationX = mat4RotationX(this.rotationX);
     const rotationY = mat4RotationY(this.rotationY);
-    const position = mat4Translation(0, -0.15, 0);
+    const position = mat4Translation(0, -0.48, 0);
     let model = mat4Multiply(scale, centerTranslation);
     model = mat4Multiply(rotationX, model);
     model = mat4Multiply(rotationY, model);
@@ -403,7 +402,7 @@ export class BuildingViewer {
     gl.uniform1f(this.uniforms.glowPass, 0);
     gl.drawElements(gl.TRIANGLES, this.indexCount, this.indexType, 0);
 
-    const glowScale = mat4Scale(1.013, 1.013, 1.013);
+    const glowScale = mat4Scale(1.015, 1.015, 1.015);
     const glowModel = mat4Multiply(model, glowScale);
     gl.enable(gl.BLEND);
     gl.blendFunc(gl.SRC_ALPHA, gl.ONE);
