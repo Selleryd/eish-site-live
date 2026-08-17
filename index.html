@@ -1,0 +1,554 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#04070c">
+  <meta name="color-scheme" content="dark">
+  <meta name="description" content="Eish Group Management provides centralized management and operational oversight across a significant global private portfolio.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Eish Group Management — One Operating Standard">
+  <meta property="og:description" content="Private Assets. Global Operations. Continuous Oversight.">
+  <meta property="og:image" content="./assets/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <title>Eish Group Management — Private Assets. Global Operations.</title>
+  <link rel="icon" type="image/png" href="./assets/favicon.png">
+  <link rel="apple-touch-icon" href="./assets/favicon.png">
+  <link rel="manifest" href="./site.webmanifest">
+  <link rel="preload" href="./assets/eish-logo-lockup.png" as="image">
+  <link rel="preload" href="./assets/eish-tower.glb" as="fetch" type="model/gltf-binary" crossorigin>
+  <link rel="stylesheet" href="./styles.css">
+  <script type="module" src="./js/app.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <canvas id="ambient-canvas" class="ambient-canvas" aria-hidden="true"></canvas>
+  <div class="page-noise" aria-hidden="true"></div>
+  <div class="scroll-progress" aria-hidden="true"><span></span></div>
+
+  <header class="site-header" data-header>
+    <div class="header-shell">
+      <a class="brand" href="#home" aria-label="Eish Group Management home">
+        <img src="./assets/eish-logo-lockup.png" alt="Eish Group Management">
+      </a>
+      <nav class="desktop-nav" aria-label="Primary navigation">
+        <a href="#about">About</a>
+        <a href="#operations">Operations</a>
+        <a href="#global">Global</a>
+        <a href="#journal">Journal</a>
+        <a href="#standard">Standard</a>
+      </nav>
+      <button class="portal-button portal-trigger" type="button">
+        <span>Private Portal</span>
+        <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11M11 6l4 4-4 4"/></svg>
+      </button>
+      <button class="menu-button" type="button" aria-label="Open menu" aria-expanded="false" data-menu-open>
+        <span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <dialog class="mobile-menu" data-mobile-menu>
+    <div class="mobile-menu-shell">
+      <button class="mobile-menu-close" type="button" aria-label="Close menu" data-menu-close>
+        <span></span><span></span>
+      </button>
+      <img class="mobile-menu-mark" src="./assets/eish-mark.png" alt="">
+      <nav aria-label="Mobile navigation">
+        <a href="#about">About</a>
+        <a href="#operations">Operations</a>
+        <a href="#projects">Projects</a>
+        <a href="#global">Global</a>
+        <a href="#journal">Journal</a>
+        <a href="#standard">The Eish Standard</a>
+      </nav>
+      <button class="button button-primary portal-trigger" type="button">Private Portal <span>↗</span></button>
+      <p>Private Assets. Global Operations. Continuous Oversight.</p>
+    </div>
+  </dialog>
+
+  <dialog class="portal-dialog" data-portal-dialog>
+    <div class="portal-panel">
+      <button class="dialog-close" type="button" aria-label="Close private portal dialog" data-portal-close>
+        <span></span><span></span>
+      </button>
+      <div class="portal-security-mark" aria-hidden="true">
+        <img src="./assets/eish-mark.png" alt="">
+        <span class="security-ring"></span>
+      </div>
+      <p class="eyebrow">AUTHORIZED ACCESS</p>
+      <h2>Private Portal</h2>
+      <p class="portal-copy">Secure operational access is provided through a separate authenticated environment. Use the private access channel issued by Eish Group Management.</p>
+      <div class="portal-status">
+        <span class="status-dot"></span>
+        <span>Protected environment</span>
+      </div>
+      <button class="button button-muted" type="button" data-portal-close>Return to public site</button>
+    </div>
+  </dialog>
+
+  <aside class="section-rail" aria-label="Page sections">
+    <a href="#home" data-section-link="home"><span>01</span><b>Home</b></a>
+    <a href="#about" data-section-link="about"><span>02</span><b>About</b></a>
+    <a href="#operations" data-section-link="operations"><span>03</span><b>Operations</b></a>
+    <a href="#global" data-section-link="global"><span>04</span><b>Global</b></a>
+    <a href="#journal" data-section-link="journal"><span>05</span><b>Journal</b></a>
+    <a href="#standard" data-section-link="standard"><span>06</span><b>Standard</b></a>
+  </aside>
+
+  <main id="main">
+    <section id="home" class="hero section-observed" data-section="home">
+      <div class="hero-grid"></div>
+      <div class="hero-orb hero-orb-a"></div>
+      <div class="hero-orb hero-orb-b"></div>
+      <div class="hero-content container">
+        <div class="hero-copy reveal-group">
+          <div class="eyebrow-line reveal-item">
+            <span></span>
+            <p>PRIVATE OPERATING PLATFORM</p>
+          </div>
+          <h1 class="reveal-item">Billions in Assets.<br><em>One Operating Standard.</em></h1>
+          <p class="hero-deck reveal-item">Private Assets. Global Operations. Continuous Oversight.</p>
+          <p class="hero-intro reveal-item">Eish Group Management provides centralized management and operational oversight across a significant global private portfolio.</p>
+          <div class="hero-actions reveal-item">
+            <a class="button button-primary" href="#operations">Explore operations <span>↓</span></a>
+            <button class="button button-ghost portal-trigger" type="button">Private Portal <span>↗</span></button>
+          </div>
+          <div class="hero-proof reveal-item" aria-label="Operating attributes">
+            <span><i></i>Centralized</span>
+            <span><i></i>Global</span>
+            <span><i></i>Continuous</span>
+            <span><i></i>Private by Design</span>
+          </div>
+        </div>
+
+        <div class="hero-visual reveal-item" data-building-stage>
+          <div class="visual-halo"></div>
+          <canvas id="building-canvas" aria-label="Interactive rotating architectural tower model"></canvas>
+          <div class="model-fallback" data-model-fallback aria-hidden="true">
+            <div class="fallback-tower"><i></i><i></i><i></i><i></i></div>
+          </div>
+          <div class="orbit orbit-a"></div>
+          <div class="orbit orbit-b"></div>
+          <div class="orbit orbit-c"></div>
+          <div class="hud-card hud-card-top">
+            <span>GLOBAL PLATFORM</span>
+            <strong>One operating picture</strong>
+          </div>
+          <div class="hud-card hud-card-left">
+            <span>OVERSIGHT</span>
+            <strong>Connected responsibilities</strong>
+          </div>
+          <div class="hud-card hud-card-right">
+            <span>READINESS</span>
+            <strong>Continuous coordination</strong>
+          </div>
+          <div class="model-control-hint"><span></span>Drag to inspect</div>
+        </div>
+      </div>
+      <div class="hero-bottom container">
+        <p>The public view is intentionally limited.</p>
+        <a href="#about" aria-label="Continue to about section"><span>Scroll</span><i></i></a>
+      </div>
+    </section>
+
+    <div class="market-ticker" aria-label="Global markets">
+      <div class="ticker-track">
+        <span>NEW YORK</span><i></i><span>FLORIDA</span><i></i><span>THE HAMPTONS</span><i></i><span>ISRAEL</span><i></i><span>EUROPE</span><i></i><span>MEDITERRANEAN</span><i></i><span>WORLDWIDE</span><i></i>
+        <span>NEW YORK</span><i></i><span>FLORIDA</span><i></i><span>THE HAMPTONS</span><i></i><span>ISRAEL</span><i></i><span>EUROPE</span><i></i><span>MEDITERRANEAN</span><i></i><span>WORLDWIDE</span><i></i>
+      </div>
+    </div>
+
+    <section id="about" class="about-section section-observed" data-section="about">
+      <div class="container section-head split-head">
+        <div>
+          <p class="eyebrow">ABOUT</p>
+          <h2>Management Built<br>Around Responsibility.</h2>
+        </div>
+        <div class="section-lead">
+          <p>Eish Group Management was established to provide structure, accountability and continuity across complex private operations.</p>
+          <p>Significant assets do not operate independently. Residences, projects, aircraft, vessels, transportation, personnel and travel continuously intersect.</p>
+        </div>
+      </div>
+
+      <div class="container operating-platform reveal-on-scroll">
+        <div class="platform-core">
+          <div class="platform-radar"></div>
+          <div class="platform-center">
+            <img src="./assets/eish-mark.png" alt="">
+            <span>ONE OPERATING<br>PLATFORM</span>
+          </div>
+          <button class="platform-node node-estate" type="button" data-platform-node="Estate & Property"><i></i><span>Estate</span></button>
+          <button class="platform-node node-projects" type="button" data-platform-node="Projects & Development"><i></i><span>Projects</span></button>
+          <button class="platform-node node-aviation" type="button" data-platform-node="Private Aviation"><i></i><span>Aviation</span></button>
+          <button class="platform-node node-marine" type="button" data-platform-node="Marine"><i></i><span>Marine</span></button>
+          <button class="platform-node node-travel" type="button" data-platform-node="Worldwide Travel"><i></i><span>Travel</span></button>
+          <button class="platform-node node-household" type="button" data-platform-node="Private & Household"><i></i><span>Household</span></button>
+        </div>
+        <div class="platform-copy">
+          <p class="micro-label">CENTRALIZED INFRASTRUCTURE</p>
+          <h3>One structure connecting every responsibility.</h3>
+          <p>Eish Group provides the centralized management infrastructure connecting these responsibilities through one operating platform and one consistent standard.</p>
+          <div class="platform-facts">
+            <article><span>Scale</span><strong>Billions</strong><p>in private assets under operational oversight</p></article>
+            <article><span>Reach</span><strong>Global</strong><p>across residences, projects and movements</p></article>
+            <article><span>Rhythm</span><strong>Continuous</strong><p>readiness, coordination and accountability</p></article>
+            <article><span>Standard</span><strong>One</strong><p>regardless of location or asset class</p></article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="operations" class="operations-section section-observed" data-section="operations">
+      <div class="operations-glow"></div>
+      <div class="container section-head operations-heading">
+        <div>
+          <p class="eyebrow">OPERATIONS</p>
+          <h2>Private Assets.<br><span>Global Operations.</span></h2>
+        </div>
+        <div>
+          <p>Our work spans real estate, development, private aviation, marine operations, transportation, worldwide travel, household operations and private experiences.</p>
+          <div class="deck-controls" aria-label="Operations carousel controls">
+            <button type="button" data-deck-prev aria-label="Previous operation"><svg viewBox="0 0 20 20"><path d="m12 5-5 5 5 5"/></svg></button>
+            <span data-deck-count>01 / 08</span>
+            <button type="button" data-deck-next aria-label="Next operation"><svg viewBox="0 0 20 20"><path d="m8 5 5 5-5 5"/></svg></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="operations-deck" data-operations-deck tabindex="0" aria-label="Operating divisions">
+        <article class="operation-card" data-operation-card>
+          <div class="card-scan"></div>
+          <div class="operation-index">01</div>
+          <div class="operation-icon">
+            <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M8 39h32M12 39V18l12-9 12 9v21M19 39V27h10v12M16 20h4M28 20h4"/></svg>
+          </div>
+          <p class="operation-label">ESTATE &amp; PROPERTY</p>
+          <h3>Every residence.<br>One operating standard.</h3>
+          <p>Operational oversight of significant private residences across multiple markets.</p>
+          <div class="operation-detail">Property readiness, maintenance, household operations, staffing, technology, vendor coordination, capital improvements and ongoing asset oversight.</div>
+          <footer><span>Readiness</span><i></i><span>Continuity</span></footer>
+        </article>
+
+        <article class="operation-card" data-operation-card>
+          <div class="card-scan"></div>
+          <div class="operation-index">02</div>
+          <div class="operation-icon">
+            <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M8 38h32M12 38V16h24v22M18 16V10h12v6M18 23h4M26 23h4M18 29h4M26 29h4"/></svg>
+          </div>
+          <p class="operation-label">PROJECTS &amp; DEVELOPMENT</p>
+          <h3>From vision<br>to operation.</h3>
+          <p>Oversight of significant private development, renovation and capital-improvement programs.</p>
+          <div class="operation-detail">Coordination between ownership, architects, designers, contractors, consultants and vendors—from planning through completion and operational handover.</div>
+          <footer><span>Planning</span><i></i><span>Handover</span></footer>
+        </article>
+
+        <article class="operation-card" data-operation-card>
+          <div class="card-scan"></div>
+          <div class="operation-index">03</div>
+          <div class="operation-icon">
+            <svg viewBox="0 0 48 48" aria-hidden="true"><path d="m6 27 16-5 7-12 4 1-3 12 10 5v4l-11-2-5 10-3-1 1-10-16 2z"/></svg>
+          </div>
+          <p class="operation-label">PRIVATE AVIATION</p>
+          <h3>The journey should<br>feel effortless.</h3>
+          <p>Integrated oversight of long-range private aviation and helicopter operations.</p>
+          <div class="operation-detail">Operational coordination, crew, cabin readiness, onboard inventory, passenger experience and integration with worldwide ground and destination operations.</div>
+          <footer><span>Air</span><i></i><span>Ground</span><i></i><span>Destination</span></footer>
+        </article>
+
+        <article class="operation-card" data-operation-card>
+          <div class="card-scan"></div>
+          <div class="operation-index">04</div>
+          <div class="operation-icon">
+            <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M7 30h34l-6 8H14zM14 30l3-11h14l5 11M20 19v-7h8v7M8 41c3 0 3-2 6-2s3 2 6 2 3-2 6-2 3 2 6 2 3-2 6-2"/></svg>
+          </div>
+          <p class="operation-label">MARINE</p>
+          <h3>From build<br>to operation.</h3>
+          <p>Operational and project oversight across significant private marine assets.</p>
+          <div class="operation-detail">Major vessels, new-build programs and supporting craft—from project coordination and technical operations to crew interface, provisioning and guest readiness.</div>
+          <footer><span>Build</span><i></i><span>Technical</span><i></i><span>Guest</span></footer>
+        </article>
+
+        <article class="operation-card" data-operation-card>
+          <div class="card-scan"></div>
+          <div class="operation-index">05</div>
+          <div class="operation-icon">
+            <svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="16"/><path d="M8 24h32M24 8c5 5 7 10 7 16s-2 11-7 16M24 8c-5 5-7 10-7 16s2 11 7 16"/></svg>
+          </div>
+          <p class="operation-label">GLOBAL OPERATIONS</p>
+          <h3>One journey.<br>One operating picture.</h3>
+          <p>Complex private movements and operations coordinated worldwide.</p>
+          <div class="operation-detail">Aviation, residences, accommodations, transportation, personnel, luggage, hospitality and destination requirements brought together through a single operating structure.</div>
+          <footer><span>Movement</span><i></i><span>Logistics</span><i></i><span>Experience</span></footer>
+        </article>
+
+        <article class="operation-card" data-operation-card>
+          <div class="card-scan"></div>
+          <div class="operation-index">06</div>
+          <div class="operation-icon">
+            <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M10 38h28M13 38V21h22v17M18 21v-7h12v7M18 28h4M26 28h4M21 38v-6h6v6"/></svg>
+          </div>
+          <p class="operation-label">PRIVATE &amp; HOUSEHOLD</p>
+          <h3>Consistency wherever<br>the operation moves.</h3>
+          <p>Coordination of the people and systems behind significant private environments.</p>
+          <div class="operation-detail">Household teams, transportation, culinary, hospitality and other private operational requirements across residences and destinations.</div>
+          <footer><span>People</span><i></i><span>Systems</span><i></i><span>Service</span></footer>
+        </article>
+
+        <article class="operation-card" data-operation-card>
+          <div class="card-scan"></div>
+          <div class="operation-index">07</div>
+          <div class="operation-icon">
+            <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M8 31h32l-3-10H11zM12 31v6M36 31v6M15 26h18M17 21l3-7h8l3 7M14 37h3M31 37h3"/></svg>
+          </div>
+          <p class="operation-label">TRANSPORTATION</p>
+          <h3>Ready before<br>it is required.</h3>
+          <p>Oversight of private fleets and destination transportation across markets.</p>
+          <div class="operation-detail">Drivers, vehicle readiness, maintenance, movements, arrival coordination and cross-destination consistency.</div>
+          <footer><span>Fleet</span><i></i><span>Readiness</span><i></i><span>Movement</span></footer>
+        </article>
+
+        <article class="operation-card" data-operation-card>
+          <div class="card-scan"></div>
+          <div class="operation-index">08</div>
+          <div class="operation-icon">
+            <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 7v34M8 24h32M13 13l22 22M35 13 13 35"/><circle cx="24" cy="24" r="13"/></svg>
+          </div>
+          <p class="operation-label">PRIVATE EXPERIENCES</p>
+          <h3>Complexity managed.<br>Experience protected.</h3>
+          <p>Oversight of major holidays, seasonal programs, private gatherings and international experiences.</p>
+          <div class="operation-detail">People, locations, transportation, culinary, hospitality, scheduling and destination requirements coordinated as one operation.</div>
+          <footer><span>Seasonal</span><i></i><span>Hospitality</span><i></i><span>Execution</span></footer>
+        </article>
+      </div>
+      <div class="container deck-instruction"><span></span>Swipe, drag or use arrow keys to explore</div>
+    </section>
+
+    <section id="projects" class="projects-section section-observed" data-section="projects">
+      <div class="blueprint-grid" aria-hidden="true"></div>
+      <div class="blueprint-beam" aria-hidden="true"></div>
+      <div class="container projects-layout">
+        <div class="projects-copy reveal-on-scroll">
+          <p class="eyebrow">PROJECTS &amp; DEVELOPMENT</p>
+          <h2>From vision.<br><span>To operation.</span></h2>
+          <p>Eish Group coordinates the operating relationship between ownership, architects, designers, contractors, consultants and vendors—from planning through completion and operational handover.</p>
+          <div class="project-phases">
+            <span>Planning</span><i></i><span>Design</span><i></i><span>Execution</span><i></i><span>Handover</span>
+          </div>
+        </div>
+        <div class="blueprint-visual reveal-on-scroll" aria-hidden="true">
+          <svg viewBox="0 0 760 640" role="img">
+            <defs>
+              <linearGradient id="blueprintStroke" x1="0" x2="1"><stop offset="0" stop-color="#2f7fff" stop-opacity=".15"/><stop offset=".5" stop-color="#7ec8ff"/><stop offset="1" stop-color="#2f7fff" stop-opacity=".15"/></linearGradient>
+              <filter id="blueprintGlow"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+            </defs>
+            <g class="blueprint-lines" fill="none" stroke="url(#blueprintStroke)" stroke-width="1.5">
+              <path d="M130 540V184l248-92 252 92v356"/>
+              <path d="M188 519V219l190-70 192 70v300"/>
+              <path d="M250 495V254l128-46 130 46v241"/>
+              <path d="M130 184h500M188 219h382M250 254h258"/>
+              <path d="M130 264h500M130 344h500M130 424h500M130 504h500"/>
+              <path d="M226 184v356M322 149v391M418 149v391M514 184v356"/>
+              <path d="M378 92v448" stroke-dasharray="5 8"/>
+              <path d="M94 540h572M96 564h568"/>
+              <path d="M158 117h440M158 106v22M598 106v22"/>
+              <path d="M103 173v367M92 173h22M92 540h22"/>
+            </g>
+            <g class="blueprint-nodes" fill="#8ed0ff" filter="url(#blueprintGlow)">
+              <circle cx="130" cy="184" r="4"/><circle cx="630" cy="184" r="4"/><circle cx="378" cy="92" r="4"/><circle cx="130" cy="540" r="4"/><circle cx="630" cy="540" r="4"/>
+            </g>
+            <g class="blueprint-labels" fill="#88a0ba" font-family="ui-monospace, monospace" font-size="11" letter-spacing="2">
+              <text x="158" y="99">OPERATING HANDOVER</text>
+              <text x="618" y="564" text-anchor="end">QUALITY / READINESS / CLOSE-OUT</text>
+              <text transform="translate(82 392) rotate(-90)">COORDINATED PROGRAM</text>
+            </g>
+          </svg>
+          <div class="blueprint-status"><span></span>Operational handover model</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="global" class="global-section section-observed" data-section="global">
+      <div class="container section-head split-head">
+        <div>
+          <p class="eyebrow">GLOBAL PRESENCE</p>
+          <h2>Operating Across Markets.<br><span>Connected Globally.</span></h2>
+        </div>
+        <div class="section-lead">
+          <p>Eish Group coordinates complex private movements and operations worldwide.</p>
+          <p>Aviation, residences, accommodations, transportation, personnel, luggage, hospitality and destination requirements are brought together through a single operating structure.</p>
+        </div>
+      </div>
+
+      <div class="container map-shell reveal-on-scroll">
+        <div class="map-toolbar">
+          <span class="live-indicator"><i></i>OPERATING NETWORK</span>
+          <span>Broad regions only</span>
+        </div>
+        <div class="world-map" data-world-map>
+          <svg class="map-svg" viewBox="0 0 1400 690" role="img" aria-label="Abstract world map showing broad Eish Group operating regions">
+            <defs>
+              <radialGradient id="mapGlow"><stop offset="0" stop-color="#2a93ff" stop-opacity=".22"/><stop offset="1" stop-color="#2a93ff" stop-opacity="0"/></radialGradient>
+              <linearGradient id="mapLine" x1="0" x2="1"><stop offset="0" stop-color="#1b4d86" stop-opacity=".12"/><stop offset=".5" stop-color="#50adff" stop-opacity=".72"/><stop offset="1" stop-color="#1b4d86" stop-opacity=".12"/></linearGradient>
+              <filter id="mapBlur"><feGaussianBlur stdDeviation="5"/></filter>
+            </defs>
+            <g class="map-grid-lines">
+              <path d="M80 110H1320M80 220H1320M80 330H1320M80 440H1320M80 550H1320"/>
+              <path d="M250 55V625M475 55V625M700 55V625M925 55V625M1150 55V625"/>
+            </g>
+            <g class="continents">
+              <path d="M125 182l61-55 86-10 57 25 46-1 34 36 67 17 38 43-21 37-63 11-24 54-40 26-23 58-51 28-33-29-8-67-43-43-49-25-30-51-51-16-17-53z"/>
+              <path d="M355 426l52 23 34 45 4 66-34 71-38 9-22-45-8-71-22-45z"/>
+              <path d="M635 172l58-40 74-9 39 19 67-12 35 30 80 2 35 28 45 2 47 38-17 39-59 8-32 33-57 4-32 31-43-20-21-41-47-5-29-37-46-3-30-28-55-4-26-28z"/>
+              <path d="M753 311l64 12 44 40 28 82-20 83-48 58-44-7-22-64-29-46 8-76-30-42z"/>
+              <path d="M1055 448l48-24 64 12 44 39 10 57-42 35-78-7-33-42z"/>
+              <path d="M1190 248l38-18 36 17-9 30-43 11z"/>
+            </g>
+            <g class="route-glows" filter="url(#mapBlur)">
+              <path d="M335 246Q645 20 914 251"/>
+              <path d="M352 274Q720 78 808 259"/>
+              <path d="M914 251Q1050 330 1118 487"/>
+              <path d="M335 246Q520 510 790 419"/>
+            </g>
+            <g class="routes">
+              <path d="M335 246Q645 20 914 251"/>
+              <path d="M352 274Q720 78 808 259"/>
+              <path d="M914 251Q1050 330 1118 487"/>
+              <path d="M335 246Q520 510 790 419"/>
+            </g>
+            <g class="map-points">
+              <g class="map-point" tabindex="0" data-region="New York" transform="translate(335 246)"><circle class="point-halo" r="34"/><circle class="point-ring" r="12"/><circle class="point-core" r="4"/></g>
+              <g class="map-point" tabindex="0" data-region="Florida" transform="translate(352 302)"><circle class="point-halo" r="28"/><circle class="point-ring" r="10"/><circle class="point-core" r="4"/></g>
+              <g class="map-point" tabindex="0" data-region="The Hamptons" transform="translate(350 235)"><circle class="point-halo" r="24"/><circle class="point-ring" r="9"/><circle class="point-core" r="3"/></g>
+              <g class="map-point" tabindex="0" data-region="Europe" transform="translate(808 259)"><circle class="point-halo" r="34"/><circle class="point-ring" r="12"/><circle class="point-core" r="4"/></g>
+              <g class="map-point" tabindex="0" data-region="Israel" transform="translate(914 318)"><circle class="point-halo" r="30"/><circle class="point-ring" r="11"/><circle class="point-core" r="4"/></g>
+              <g class="map-point" tabindex="0" data-region="Mediterranean" transform="translate(866 292)"><circle class="point-halo" r="30"/><circle class="point-ring" r="11"/><circle class="point-core" r="4"/></g>
+              <g class="map-point" tabindex="0" data-region="Worldwide" transform="translate(1118 487)"><circle class="point-halo" r="38"/><circle class="point-ring" r="13"/><circle class="point-core" r="5"/></g>
+            </g>
+          </svg>
+          <div class="map-tooltip" data-map-tooltip><span>REGION</span><strong>New York</strong><p>Broad operational presence</p></div>
+          <div class="map-regions" aria-label="Operating regions">
+            <button type="button" data-map-region="New York">New York</button>
+            <button type="button" data-map-region="Florida">Florida</button>
+            <button type="button" data-map-region="The Hamptons">The Hamptons</button>
+            <button type="button" data-map-region="Israel">Israel</button>
+            <button type="button" data-map-region="Europe">Europe</button>
+            <button type="button" data-map-region="Mediterranean">Mediterranean</button>
+            <button type="button" data-map-region="Worldwide">Worldwide</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="journal" class="journal-section section-observed" data-section="journal">
+      <div class="journal-aura" aria-hidden="true"></div>
+      <div class="container section-head journal-head">
+        <div>
+          <p class="eyebrow">ONGOING OPERATIONS</p>
+          <h2>Continuous Oversight.</h2>
+        </div>
+        <div>
+          <p>A carefully approved, delayed and non-identifying view into the living operation—evidence of continuity without exposing the private world behind it.</p>
+          <div class="journal-filters" data-journal-filters aria-label="Filter ongoing operations">
+            <button type="button" class="is-active" data-filter="all">All</button>
+            <button type="button" data-filter="estate">Estate</button>
+            <button type="button" data-filter="projects">Projects</button>
+            <button type="button" data-filter="aviation">Aviation</button>
+            <button type="button" data-filter="marine">Marine</button>
+            <button type="button" data-filter="global">Global</button>
+          </div>
+        </div>
+      </div>
+      <div class="container journal-grid" data-journal-grid aria-live="polite"></div>
+      <div class="container journal-policy">
+        <div><span class="status-dot"></span><strong>Delayed publication</strong><p>No live itineraries or movements.</p></div>
+        <div><span class="status-dot"></span><strong>Broad locations</strong><p>Only approved regional labels.</p></div>
+        <div><span class="status-dot"></span><strong>Confidentiality review</strong><p>Every update is screened before publication.</p></div>
+      </div>
+    </section>
+
+    <section id="standard" class="standard-section section-observed" data-section="standard">
+      <div class="standard-rings" aria-hidden="true"><i></i><i></i><i></i></div>
+      <div class="container section-head standard-head">
+        <div>
+          <p class="eyebrow">THE EISH STANDARD</p>
+          <h2>Quiet principles.<br><span>Visible in execution.</span></h2>
+        </div>
+        <p>The standard remains consistent regardless of location, asset or operating environment.</p>
+      </div>
+      <div class="container standard-grid reveal-on-scroll">
+        <article><span>01</span><div class="standard-icon"><i></i></div><h3>Discretion</h3><p>Private means private.</p></article>
+        <article><span>02</span><div class="standard-icon"><i></i></div><h3>Accountability</h3><p>Every responsibility has an owner.</p></article>
+        <article><span>03</span><div class="standard-icon"><i></i></div><h3>Readiness</h3><p>Everything should be prepared before it is required.</p></article>
+        <article><span>04</span><div class="standard-icon"><i></i></div><h3>Consistency</h3><p>The standard remains consistent regardless of location.</p></article>
+        <article><span>05</span><div class="standard-icon"><i></i></div><h3>Detail</h3><p>Small details determine the quality of the overall experience.</p></article>
+        <article><span>06</span><div class="standard-icon"><i></i></div><h3>Execution</h3><p>A plan matters only when it is properly executed.</p></article>
+        <article class="standard-trust"><span>07</span><div class="standard-icon"><i></i></div><h3>Trust</h3><p>Protecting the complete operating picture.</p></article>
+      </div>
+    </section>
+
+    <section id="privacy" class="privacy-section">
+      <div class="container privacy-layout reveal-on-scroll">
+        <div class="privacy-copy">
+          <p class="eyebrow">PRIVATE BY DESIGN</p>
+          <h2>The organization is public.<br><span>The private world is not.</span></h2>
+          <p>Discretion is fundamental to Eish Group Management. Our public presence provides a deliberately limited view into highly private environments.</p>
+          <p>Information concerning private individuals, residences, movements, personnel and specific assets remains confidential.</p>
+          <blockquote>Our public presence represents the organization—not the private world behind it.</blockquote>
+        </div>
+        <div class="confidentiality-stack" aria-label="Confidentiality architecture">
+          <article class="confidential-layer layer-public">
+            <span>PUBLIC</span>
+            <strong>Broad operational picture</strong>
+            <p>Capabilities, approved project categories, broad regions, delayed milestones and non-identifying imagery.</p>
+          </article>
+          <article class="confidential-layer layer-private">
+            <span>PRIVATE</span>
+            <strong>Protected operating detail</strong>
+            <p>Exact properties, asset identifiers, staff assignments, live movements, schedules, family and security information.</p>
+          </article>
+          <article class="confidential-layer layer-portal">
+            <span>PORTAL ONLY</span>
+            <strong>Authorized operational access</strong>
+            <p>Material useful to authorized users but inappropriate for a public environment.</p>
+          </article>
+          <div class="stack-lock" aria-hidden="true">
+            <svg viewBox="0 0 48 48"><rect x="10" y="21" width="28" height="20" rx="5"/><path d="M16 21v-6a8 8 0 0 1 16 0v6M24 29v5"/></svg>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="closing-section">
+      <div class="closing-grid"></div>
+      <div class="container closing-content">
+        <img src="./assets/eish-logo-lockup.png" alt="Eish Group Management">
+        <p class="eyebrow">EISH GROUP MANAGEMENT</p>
+        <h2>Private Assets.<br><span>Global Operations.</span><br>Continuous Oversight.</h2>
+        <p>Management and operational oversight across billions of dollars in private assets worldwide.</p>
+        <button class="button button-primary portal-trigger" type="button">Private Portal <span>↗</span></button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-top">
+      <div class="footer-brand">
+        <img src="./assets/eish-logo-lockup.png" alt="Eish Group Management">
+        <p>One operating platform. One consistent standard.</p>
+      </div>
+      <div class="footer-nav">
+        <div><span>Explore</span><a href="#about">About</a><a href="#operations">Operations</a><a href="#global">Global Presence</a></div>
+        <div><span>Organization</span><a href="#journal">Ongoing Operations</a><a href="#standard">The Eish Standard</a><a href="#privacy">Private by Design</a></div>
+        <div><span>Access</span><button class="portal-trigger" type="button">Private Portal</button><a href="#home">Return to top</a></div>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <p>© <span data-current-year>2026</span> Eish Group Management. All rights reserved.</p>
+      <p>Private Assets. Global Operations. Continuous Oversight.</p>
+    </div>
+  </footer>
+
+  <noscript><div class="noscript">This experience requires JavaScript for its interactive visualizations.</div></noscript>
+</body>
+</html>
