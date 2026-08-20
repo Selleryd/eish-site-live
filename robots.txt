@@ -1,2 +1,3 @@
 User-agent: *
 Allow: /
+Sitemap: https://selleryd.github.io/eish-site-live/sitemap.xml

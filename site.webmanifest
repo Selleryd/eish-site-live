@@ -4,9 +4,10 @@
   "description": "Private Assets. Global Operations. Continuous Oversight.",
   "start_url": "./",
   "display": "standalone",
-  "background_color": "#04070c",
-  "theme_color": "#04070c",
+  "background_color": "#050a12",
+  "theme_color": "#050a12",
   "icons": [
-    { "src": "./assets/favicon.png", "sizes": "128x128", "type": "image/png" }
+    { "src": "./assets/icons/favicon.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "./assets/icons/apple-touch-icon.png", "sizes": "512x512", "type": "image/png" }
   ]
 }
