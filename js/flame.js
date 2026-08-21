@@ -1,166 +1,141 @@
-export class BlueFlame {
-  constructor(canvas, options = {}) {
+class BlueFlame {
+  constructor(canvas) {
     this.canvas = canvas;
-    this.ctx = canvas.getContext('2d', { alpha: true, desynchronized: true });
-    this.mode = options.mode || 'center';
-    this.intensity = options.intensity ?? 1;
-    this.maxParticles = options.maxParticles || (this.mode === 'hero' ? 210 : 110);
+    this.ctx = canvas.getContext('2d', { alpha: true });
     this.particles = [];
+    this.time = 0;
+    this.last = performance.now();
     this.visible = true;
     this.running = true;
-    this.lastTime = performance.now();
-    this.frame = 0;
-    this.reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    this.reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
     this.resizeObserver = new ResizeObserver(() => this.resize());
     this.resizeObserver.observe(canvas);
     this.intersectionObserver = new IntersectionObserver((entries) => {
       this.visible = entries[0]?.isIntersecting ?? true;
-    }, { rootMargin: '180px' });
+    }, { rootMargin: '120px' });
     this.intersectionObserver.observe(canvas);
+    document.addEventListener('visibilitychange', () => { this.running = !document.hidden; });
     this.resize();
-    this.animate = this.animate.bind(this);
-    this.frame = requestAnimationFrame(this.animate);
+    this.seed();
+    this.raf = requestAnimationFrame((t) => this.frame(t));
   }
 
   resize() {
     const rect = this.canvas.getBoundingClientRect();
-    const dpr = Math.min(window.devicePixelRatio || 1, 1.7);
-    const width = Math.max(1, Math.round(rect.width * dpr));
-    const height = Math.max(1, Math.round(rect.height * dpr));
-    if (this.canvas.width !== width || this.canvas.height !== height) {
-      this.canvas.width = width;
-      this.canvas.height = height;
-      this.canvas.style.width = `${rect.width}px`;
-      this.canvas.style.height = `${rect.height}px`;
-      this.dpr = dpr;
-      this.width = width;
-      this.height = height;
+    const dpr = Math.min(devicePixelRatio || 1, 1.6);
+    this.width = Math.max(1, Math.round(rect.width * dpr));
+    this.height = Math.max(1, Math.round(rect.height * dpr));
+    if (this.canvas.width !== this.width || this.canvas.height !== this.height) {
+      this.canvas.width = this.width;
+      this.canvas.height = this.height;
     }
+    this.scale = dpr;
   }
 
-  origin() {
-    if (this.mode === 'hero') return { x: this.width * 0.735, y: this.height * 0.70, spread: this.width * 0.07, lift: this.height * 0.38 };
-    if (this.mode === 'portal') return { x: this.width * 0.5, y: this.height * 0.80, spread: this.width * 0.10, lift: this.height * 0.60 };
-    return { x: this.width * 0.5, y: this.height * 0.72, spread: this.width * 0.11, lift: this.height * 0.48 };
+  seed() {
+    const count = this.reduced ? 28 : 88;
+    for (let i = 0; i < count; i += 1) this.particles.push(this.createParticle(true));
   }
 
-  spawn(count = 2) {
-    const o = this.origin();
-    for (let i = 0; i < count && this.particles.length < this.maxParticles; i += 1) {
-      const seed = Math.random();
-      const life = 0.75 + Math.random() * 1.2;
-      this.particles.push({
-        x: o.x + (Math.random() - 0.5) * o.spread,
-        y: o.y + (Math.random() - 0.5) * o.spread * 0.22,
-        vx: (Math.random() - 0.5) * o.spread * 0.20,
-        vy: -(o.lift * (0.45 + Math.random() * 0.55)),
-        life,
-        maxLife: life,
-        size: (4 + Math.random() * 13) * this.dpr * this.intensity,
-        seed,
-        hue: 195 + Math.random() * 25
-      });
-    }
+  createParticle(initial = false) {
+    const spread = this.width * 0.11;
+    const x = this.width * 0.5 + (Math.random() - 0.5) * spread;
+    const y = this.height * (0.73 + Math.random() * 0.08);
+    const life = 0.95 + Math.random() * 1.25;
+    return {
+      x,
+      y: initial ? y - Math.random() * this.height * 0.48 : y,
+      vx: (Math.random() - 0.5) * 8,
+      vy: -(22 + Math.random() * 44),
+      radius: this.width * (0.018 + Math.random() * 0.035),
+      age: initial ? Math.random() * life : 0,
+      life,
+      phase: Math.random() * Math.PI * 2,
+      layer: Math.random()
+    };
   }
 
-  drawCore(time) {
-    const ctx = this.ctx;
-    const o = this.origin();
-    const themeDay = document.body.dataset.theme === 'day';
-    const pulse = 1 + Math.sin(time * 0.0021) * 0.035;
-    const coreW = o.spread * 1.8 * pulse;
-    const coreH = o.lift * 0.72 * pulse;
+  update(dt) {
+    this.time += dt;
+    const spawnCount = this.reduced ? 0 : Math.max(1, Math.floor(dt * 42));
+    for (let i = 0; i < spawnCount; i += 1) this.particles.push(this.createParticle());
 
-    ctx.save();
-    ctx.globalCompositeOperation = 'lighter';
-    ctx.translate(o.x, o.y);
-
-    const halo = ctx.createRadialGradient(0, -coreH * 0.22, 0, 0, -coreH * 0.22, coreW * 1.45);
-    halo.addColorStop(0, themeDay ? 'rgba(95,190,255,.18)' : 'rgba(44,135,255,.28)');
-    halo.addColorStop(0.45, 'rgba(31,105,238,.10)');
-    halo.addColorStop(1, 'rgba(0,0,0,0)');
-    ctx.fillStyle = halo;
-    ctx.beginPath();
-    ctx.ellipse(0, -coreH * 0.22, coreW * 1.4, coreH * 0.78, 0, 0, Math.PI * 2);
-    ctx.fill();
-
-    const layers = [
-      { scale: 1, color0: 'rgba(34,93,255,.04)', color1: 'rgba(33,132,255,.25)', color2: 'rgba(93,221,255,.12)' },
-      { scale: .72, color0: 'rgba(36,106,255,.12)', color1: 'rgba(61,173,255,.48)', color2: 'rgba(164,241,255,.20)' },
-      { scale: .42, color0: 'rgba(110,211,255,.25)', color1: 'rgba(201,250,255,.72)', color2: 'rgba(255,255,255,.18)' }
-    ];
-
-    layers.forEach((layer, index) => {
-      const w = coreW * layer.scale;
-      const h = coreH * layer.scale;
-      const sway = Math.sin(time * 0.0016 + index * 1.7) * coreW * 0.09;
-      const grad = ctx.createLinearGradient(0, 0, 0, -h);
-      grad.addColorStop(0, layer.color0);
-      grad.addColorStop(.48, layer.color1);
-      grad.addColorStop(1, layer.color2);
-      ctx.fillStyle = grad;
-      ctx.beginPath();
-      ctx.moveTo(-w * .42, 0);
-      ctx.bezierCurveTo(-w * .72, -h * .28, -w * .24 + sway, -h * .58, -w * .08 + sway, -h);
-      ctx.bezierCurveTo(w * .05 + sway, -h * .72, w * .58, -h * .38, w * .42, 0);
-      ctx.bezierCurveTo(w * .17, -h * .08, -w * .18, -h * .08, -w * .42, 0);
-      ctx.fill();
-    });
-    ctx.restore();
-  }
-
-  update(dt, time) {
-    const o = this.origin();
-    const spawnRate = this.reduced ? 0 : (this.mode === 'hero' ? 5 : 3);
-    this.spawn(Math.max(0, Math.round(spawnRate * dt * 60)));
-    this.particles = this.particles.filter((p) => {
-      p.life -= dt;
-      if (p.life <= 0) return false;
-      const normalized = 1 - p.life / p.maxLife;
-      const turbulence = Math.sin(time * 0.0025 + p.seed * 12 + normalized * 9);
-      p.x += (p.vx + turbulence * o.spread * 0.045) * dt;
+    for (let i = this.particles.length - 1; i >= 0; i -= 1) {
+      const p = this.particles[i];
+      p.age += dt;
+      if (p.age >= p.life) {
+        this.particles.splice(i, 1);
+        continue;
+      }
+      const t = p.age / p.life;
+      const curl = Math.sin(this.time * 3.2 + p.phase + t * 7.0) * (8 + 22 * t);
+      p.x += (p.vx + curl) * dt;
       p.y += p.vy * dt;
-      p.vx *= 0.996;
-      p.vy *= 0.994;
-      p.size *= 0.998;
-      return true;
-    });
+      p.vy -= 6.5 * dt;
+      p.radius *= 1 - 0.17 * dt;
+    }
+
+    const cap = this.reduced ? 32 : 118;
+    while (this.particles.length > cap) this.particles.shift();
   }
 
-  drawParticles() {
+  drawBaseGlow() {
     const ctx = this.ctx;
-    ctx.save();
+    const x = this.width * 0.5;
+    const y = this.height * 0.72;
+    const r = this.width * 0.28;
+    const g = ctx.createRadialGradient(x, y, 0, x, y, r);
+    g.addColorStop(0, 'rgba(105,211,255,.30)');
+    g.addColorStop(.28, 'rgba(31,134,255,.20)');
+    g.addColorStop(.65, 'rgba(9,69,160,.08)');
+    g.addColorStop(1, 'rgba(0,0,0,0)');
+    ctx.fillStyle = g;
+    ctx.fillRect(0, 0, this.width, this.height);
+  }
+
+  draw() {
+    const ctx = this.ctx;
+    ctx.clearRect(0, 0, this.width, this.height);
     ctx.globalCompositeOperation = 'lighter';
+    this.drawBaseGlow();
+
     for (const p of this.particles) {
-      const life = p.life / p.maxLife;
-      const alpha = Math.sin(Math.PI * Math.min(1, life)) * (0.12 + p.seed * 0.20) * this.intensity;
-      const radius = p.size * (0.55 + (1 - life) * 1.2);
-      const grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, radius * 2.1);
-      grad.addColorStop(0, `hsla(${p.hue + 10},100%,88%,${alpha * 1.3})`);
-      grad.addColorStop(.28, `hsla(${p.hue},100%,62%,${alpha})`);
-      grad.addColorStop(1, `hsla(${p.hue - 16},100%,38%,0)`);
-      ctx.fillStyle = grad;
+      const t = p.age / p.life;
+      const fade = Math.sin(Math.PI * Math.min(1, t)) * (1 - t * 0.36);
+      const r = p.radius * (1 - t * 0.25);
+      if (r < 0.5 || fade <= 0) continue;
+
+      const gradient = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, r);
+      if (p.layer < 0.34) {
+        gradient.addColorStop(0, `rgba(198,240,255,${0.42 * fade})`);
+        gradient.addColorStop(.18, `rgba(74,198,255,${0.42 * fade})`);
+        gradient.addColorStop(.54, `rgba(28,121,255,${0.24 * fade})`);
+      } else if (p.layer < 0.76) {
+        gradient.addColorStop(0, `rgba(86,202,255,${0.28 * fade})`);
+        gradient.addColorStop(.24, `rgba(28,131,255,${0.28 * fade})`);
+        gradient.addColorStop(.62, `rgba(14,74,190,${0.14 * fade})`);
+      } else {
+        gradient.addColorStop(0, `rgba(62,127,255,${0.14 * fade})`);
+        gradient.addColorStop(.45, `rgba(24,72,170,${0.09 * fade})`);
+      }
+      gradient.addColorStop(1, 'rgba(0,0,0,0)');
+      ctx.fillStyle = gradient;
       ctx.beginPath();
-      ctx.ellipse(p.x, p.y, radius * .78, radius * 1.55, 0, 0, Math.PI * 2);
+      ctx.ellipse(p.x, p.y, r * 0.78, r * 1.45, Math.sin(p.phase + t * 3) * 0.22, 0, Math.PI * 2);
       ctx.fill();
     }
-    ctx.restore();
+
+    ctx.globalCompositeOperation = 'source-over';
   }
 
-  animate(time) {
-    this.frame = requestAnimationFrame(this.animate);
-    if (!this.visible || !this.running || !this.ctx) return;
-    const dt = Math.min(.04, Math.max(.001, (time - this.lastTime) / 1000));
-    this.lastTime = time;
-    this.ctx.clearRect(0, 0, this.width, this.height);
-    this.drawCore(time);
-    if (!this.reduced) this.update(dt, time);
-    this.drawParticles();
-  }
-
-  destroy() {
-    cancelAnimationFrame(this.frame);
-    this.resizeObserver?.disconnect();
-    this.intersectionObserver?.disconnect();
+  frame(now) {
+    this.raf = requestAnimationFrame((t) => this.frame(t));
+    if (!this.running || !this.visible) return;
+    const dt = Math.min(0.05, Math.max(0, (now - this.last) / 1000));
+    this.last = now;
+    this.update(dt);
+    this.draw();
   }
 }
+
+document.querySelectorAll('canvas[data-flame]').forEach((canvas) => new BlueFlame(canvas));

@@ -2,12 +2,12 @@
   "name": "Eish Group Management",
   "short_name": "Eish Group",
   "description": "Private Assets. Global Operations. Continuous Oversight.",
-  "start_url": "./",
+  "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#050a12",
-  "theme_color": "#050a12",
+  "background_color": "#03070c",
+  "theme_color": "#03070c",
   "icons": [
-    { "src": "./assets/icons/favicon.png", "sizes": "512x512", "type": "image/png" },
-    { "src": "./assets/icons/apple-touch-icon.png", "sizes": "512x512", "type": "image/png" }
+    {"src": "./assets/icons/icon-192.png", "sizes": "192x192", "type": "image/png"},
+    {"src": "./assets/icons/icon-512.png", "sizes": "512x512", "type": "image/png"}
   ]
 }
